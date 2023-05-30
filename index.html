@@ -1,53 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AR Quick Look</title>
+    <title>AR Quick Look Demo</title>
 </head>
 <body>
-  <h1>AR Quick Look</h1>
-  <form id="nameForm">
-    <label for="name">Enter Name:</label>
-    <input type="text" id="name" name="name" required>
-    <button type="submit">View AR</button>
-  </form>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
-  <script>
-    document.getElementById('nameForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      const name = document.getElementById('name').value;
-      const zipUrl = `https://github.com/maxxfrazer/usdz_store/releases/download/v1.0/${name}.usdz.zip`;
-
-      fetch(zipUrl)
-        .then(response => response.blob())
-        .then(blob => {
-          const zipReader = new JSZip();
-          return zipReader.loadAsync(blob);
-        })
-        .then(zip => {
-          // Extract the USDZ file from the zip
-          const usdzFile = zip.file(`${name}.usdz`);
-          if (usdzFile) {
-            return usdzFile.async('blob');
-          } else {
-            throw new Error('USDZ file not found in the zip.');
-          }
-        })
-        .then(usdzBlob => {
-          // Display the AR Quick Look using the extracted USDZ file
-          const anchor = document.createElement('a');
-          anchor.href = URL.createObjectURL(usdzBlob);
-          anchor.setAttribute('rel', 'ar');
-          anchor.setAttribute('type', 'model/usdz');
-          document.body.appendChild(anchor);
-          anchor.click();
-        })
-        .catch(error => {
-          console.error(error);
-          // Handle any errors that occur during the process
-        });
-    });
-  </script>
+    <h1>AR Quick Look Demo</h1>
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        var name = urlParams.get('name');
+        if (name) {
+            var usdzURL = `https://europe-west2-concrete-flight-383716.cloudfunctions.net/maxxfrazer-usdz/${name}.usdz`;
+            document.body.innerHTML = `
+                <p align="center"><a href='${usdzURL}' rel='ar' >
+                    <img style="width: 100%; max-width: 512px;" src="https://github.com/maxxfrazer/usdz_store/releases/download/files/${name}.png"/>
+                </a></p>
+            `;
+        }
+    </script>
 </body>
 </html>
