@@ -2,9 +2,24 @@
 <html>
 <head>
     <title>AR Quick Look Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxxFrazer's USDZ</title>
+    <style>
+        body {
+            background-color: #fff; /* default background color */
+            color: #000; /* default text color */
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #000; /* dark mode background color */
+                color: #fff; /* dark mode text color */
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>AR Quick Look Demo</h1>
     <script>
         var urlParams = new URLSearchParams(window.location.search);
         var name = urlParams.get('name');
